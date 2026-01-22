@@ -1,0 +1,37 @@
+```
+└── 📁project
+    └── 📁Frontend-Interview
+        └── 📁public
+            ├── vite.svg
+        └── 📁src
+            └── 📁api
+                ├── blogs.ts
+            └── 📁assets
+                ├── react.svg
+            └── 📁components
+                └── 📁pages
+                    ├── Home.tsx
+                ├── BlogCard.tsx
+                ├── BlogDetail.tsx
+                ├── BlogList.tsx
+                ├── CreateBlog.tsx
+            ├── App.css
+            ├── App.tsx
+            ├── index.css
+            ├── main.tsx
+        ├── .gitignore
+        ├── db.json
+        ├── eslint.config.js
+        ├── image.png
+        ├── index.html
+        ├── package-lock.json
+        ├── package.json
+        ├── README.md
+        ├── tsconfig.app.json
+        ├── tsconfig.json
+        ├── tsconfig.node.json
+        ├── ui.jpeg
+        ├── vite.config.ts
+    ├── postcss.config.js
+    └── tailwind.config.js
+```

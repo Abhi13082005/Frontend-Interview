@@ -1,35 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { BlogList } from "./components/BlogList";
+import { BlogDetail } from "./components/BlogDetail";
+import { CreateBlogForm } from "./components/CreateBlogForm";
 
-function App() {
-  const [count, setCount] = useState(0)
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+function BlogApp() {
+  const [selectedBlogId, setSelectedBlogId] = useState<number | null>(null);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="min-h-screen bg-background flex flex-col">
+      <Header />
+
+      <main className="flex-1 p-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-6">
+            <h1 className="text-4xl font-bold mb-2">CA Monk Blog</h1>
+            <p className="text-muted-foreground">
+              Stay updated with the latest trends in finance, accounting, and
+              career growth
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left Panel - Blog List */}
+            <div className="space-y-4">
+              <CreateBlogForm />
+              <div className="h-[calc(100vh-20rem)] overflow-y-auto pr-2">
+                <BlogList
+                  onBlogSelect={setSelectedBlogId}
+                  selectedBlogId={selectedBlogId}
+                />
+              </div>
+            </div>
+
+            {/* Right Panel - Blog Detail */}
+            <div className="h-[calc(100vh-16rem)] sticky top-20">
+              <BlogDetail blogId={selectedBlogId} />
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BlogApp />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
+}
+
+export default App;
